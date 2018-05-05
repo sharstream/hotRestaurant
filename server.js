@@ -7,7 +7,7 @@ let path = require("path");
 let parseNumber = require("libphonenumber-js");
 
 let app = express();
-let PORT = 3000;
+let PORT = process.env.PORT || 3000;
 
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
