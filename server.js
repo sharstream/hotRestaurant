@@ -44,19 +44,28 @@ let reservation = [
 //GET METHOD
 //go to your home page
 app.get("/", (req, res) => {
-    res.sendFile(path.join(__dirname, "home.html"));
+    res.sendFile(path.join(__dirname, "/home.html"));
 });
 //make a new reservation
 app.get("/reserve", (req, res) => {
-    res.sendFile(path.join(__dirname, "reserve.html"));
+    res.sendFile(path.join(__dirname, "/reserve.html"));
 });
 //display all the resevations
 app.get("/table", (req, res) => {
-    res.sendFile(path.join(__dirname, "table.html"));
+    res.sendFile(path.join(__dirname, "/table.html"));
 });
 //resturn all the reservation data
 app.get("/api/table", (req, res) => {
+    // res.json(reservations.slice(0, 4));
     return res.json(reservations);
+});
+//display waiting list
+app.get("/api/waitlist", (req, res) => {
+    // res.json(reservations.slice(5));
+    if (waitlist.length>0) {
+        return res.json(waitlist);
+    }
+    console.log('waitlist empty!!!');
 });
 
 //POST METHOD
@@ -64,23 +73,34 @@ app.get("/api/table", (req, res) => {
 app.post("/api/reserve", (req, res) => {
     // req.body hosts is equal to the JSON post sent from the user
     // This works because of our body-parser middleware
-    var newreservation = req.body;
+    let newreservation = req.body;
     // Using a RegEx Pattern to remove spaces from newCharacter
     // You can read more about RegEx Patterns later https://www.regexbuddy.com/regex.html
     newreservation.name = newreservation.name.replace(/\s+/g, "").toLowerCase();
     console.log(newreservation);
 
-    if(count > 5){
+    if(reservations.length <= 5){
         reservations.push(newreservation);
         res.json(newreservation);
-        count ++;
+        console.log('reservation: ' + reservations);
     }
     else {
         waitlist.push(newreservation);
         res.json(newreservation);
+        console.log('waitlist: ' + waitlist)
     }
 });
-
+//reset application
+app.post("/api/clear", (req, res) => {
+    reservations = [];
+    waitlist = [];
+    console.log(reservations);
+});
+app.delete('/api/tables', (req, res) => {
+    console.log('table deleted!!!');
+    reservations.splice(0, 5);
+    res.json(reservations);
+});
 //listening port in the server.
 app.listen(PORT, () => {
     console.log(`Server started on port `+ PORT);
