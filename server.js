@@ -4,6 +4,7 @@
 let express = require("express");
 let bodyParser = require("body-parser");
 let path = require("path");
+let parseNumber = require("libphonenumber-js");
 
 let app = express();
 let PORT = 3000;
@@ -11,7 +12,10 @@ let PORT = 3000;
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 
-var reservation = [
+//count every time somebody makes a reservation
+let count = 5;
+let waitlist = [];//array of string
+let reservation = [
     {
         name: "firstReservation",
         phoneNumber: "8139526965",
@@ -61,16 +65,20 @@ app.post("/api/reserve", (req, res) => {
     // req.body hosts is equal to the JSON post sent from the user
     // This works because of our body-parser middleware
     var newreservation = req.body;
-
     // Using a RegEx Pattern to remove spaces from newCharacter
     // You can read more about RegEx Patterns later https://www.regexbuddy.com/regex.html
     newreservation.name = newreservation.name.replace(/\s+/g, "").toLowerCase();
-
     console.log(newreservation);
 
-    reservations.push(newreservation);
-
-    res.json(newreservation);
+    if(count !== 5){
+        reservations.push(newreservation);
+        res.json(newreservation);
+        count ++;
+    }
+    else {
+        waitlist.push(newreservation);
+        res.json(newreservation);
+    }
 });
 
 //listening port in the server.
