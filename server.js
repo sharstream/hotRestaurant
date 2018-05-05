@@ -11,9 +11,9 @@ let PORT = 3000;
 
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
-
+app.use(express.static('public'));
 //count every time somebody makes a reservation
-let count = 5;
+let count = 0;
 let waitlist = [];//array of string
 let reservation = [
     {
@@ -70,7 +70,7 @@ app.post("/api/reserve", (req, res) => {
     newreservation.name = newreservation.name.replace(/\s+/g, "").toLowerCase();
     console.log(newreservation);
 
-    if(count !== 5){
+    if(count > 5){
         reservations.push(newreservation);
         res.json(newreservation);
         count ++;
