@@ -59,3 +59,11 @@ typings/
 
 package-lock.json
 phases.md
+
+.idea/codeStyles/Project.xml
+.idea/dbnavigator.xml
+.idea/hotRestaurant.iml
+.idea/misc.xml
+.idea/modules.xml
+.idea/vcs.xml
+.idea/workspace.xml
