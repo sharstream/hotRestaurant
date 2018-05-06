@@ -26,8 +26,7 @@ $(document).ready( () => {
             contentType: 'application/json',
             method: 'POST',
             success: (data) => {
-                var ret = jQuery.parseJSON(data);
-                $('#lblResponse').html(ret.msg);
+
                 if (data == true) {
                     alert("Yay! You are officially booked!")
                 }
@@ -37,10 +36,6 @@ $(document).ready( () => {
                 }
                 //clear reservation fields
                 console.log(JSON.stringify(newreservation));
-                $('#name').val().text('');
-                $('#number').val().text('');
-                $('#email').val().text('');
-                $('#id').val().text('');
             },
             error: (xhr, status, error) => {
                 console.log('Error: ' + error.message);
