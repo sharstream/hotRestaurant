@@ -1,5 +1,7 @@
 // Question: What does this code do??
-$(document).ready(function(){
+let $ = require("jquery")(window);
+$(document).ready( () => {
+    //your code here
 
     // In this code below we create the Front-end Javascript which "POSTS" our form data to our express server.
     // In essence, when the user hits submit, jQuery grabs all of the fields then sends a post request to our api
@@ -63,7 +65,7 @@ $(document).ready(function(){
                 url: currentURL + "/api/tables",
                 method: "GET"
             })
-            .done(function (tableData) {
+            .done( (tableData) => {
                 // Here we are logging the URL so we have access to it for troubleshooting
                 console.log("------------------------------------");
                 console.log("URL: " + currentURL + "/api/tables");
@@ -83,7 +85,7 @@ $(document).ready(function(){
                     $("#tableWell-" + i + 1).append('<h2><span class="label label-primary">' + tableNumber + "</span> | " + tableData[i].customerID + "</h2>");
                 }
             });
-    }
+    };
 
     function runWaitListQuery() {
         // Here we get the location of the root page.
@@ -94,7 +96,7 @@ $(document).ready(function(){
                 url: currentURL + "/api/waitlist",
                 method: "GET"
             })
-            .done(function (waitlistData) {
+            .done( (waitlistData) => {
                 // Here we are logging the URL so we have access to it for troubleshooting
                 console.log("------------------------------------");
                 console.log("URL: " + currentURL + "/api/waitlist");
@@ -114,7 +116,7 @@ $(document).ready(function(){
                     $("#waitlistWell-" + i + 1).append('<h2><span class="label label-primary">' + tableNumber + "</span> | " + waitlistData[i].customerID + "</h2>");
                 }
             });
-    }
+    };
     // This function resets all of the data in our tables. This is intended to let you restart a demo.
     function clearTable() {
         var currentURL = window.location.origin;
@@ -122,13 +124,13 @@ $(document).ready(function(){
             url: currentURL + "/api/clear",
             method: "POST"
         })
-    }
-    $("#clear").on('click', function () {
+    };
+    $("#clear").on('click', () => {
         alert("Clearing...");
         clearTable();
         // Refresh the page after data is cleared
         location.reload();
-    })
+    });
     // Run Queries!
     // ==========================================
     runTableQuery();
