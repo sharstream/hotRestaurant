@@ -11,7 +11,22 @@ let PORT = process.env.PORT || 3000;
 
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
-app.use(express.static('public'));
+//middleware function with an elaborate options object
+var options = {
+    dotfiles: 'ignore',
+    etag: false,
+    extensions: ['htm', 'html', 'js'],
+    index: false,
+    maxAge: '1d',
+    redirect: false,
+    fallthrough: true,
+    setHeaders: function (res, path, stat) {
+        res.set('x-timestamp', Date.now())
+    }
+}
+
+app.use(express.static('public', options));
+app.use("/public/app.js", express.static(__dirname + '/public/app.js'));
 //count every time somebody makes a reservation
 let count = 0;
 let waitlist = [];//array of string
