@@ -30,7 +30,7 @@ app.use("/public/app.js", express.static(__dirname + '/public/app.js'));
 //count every time somebody makes a reservation
 let count = 0;
 let waitlist = [];//array of string
-let reservation = [
+let reservations = [
     {
         name: "firstReservation",
         phoneNumber: "8139526965",

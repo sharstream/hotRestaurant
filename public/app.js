@@ -1,5 +1,4 @@
 // Question: What does this code do??
-let $ = require("jquery")(window);
 $(document).ready( () => {
     //your code here
 
@@ -62,7 +61,7 @@ $(document).ready( () => {
         var currentURL = window.location.origin;
         // The AJAX function uses the URL of our API to GET the data associated with it (initially set to localhost)
         $.ajax({
-                url: currentURL + "/api/tables",
+                url: currentURL + "/api/table",
                 method: "GET"
             })
             .done( (tableData) => {
@@ -79,10 +78,10 @@ $(document).ready( () => {
                     var tableSection = $("<div>");
                     tableSection.addClass('well');
                     tableSection.attr('id', 'tableWell-' + i + 1)
-                    $('#tableSection').append(tableSection);
+                    $('.panel-body').append(tableSection);
                     var tableNumber = i + 1;
                     // Then display the remaining fields in the HTML (Section Name, Date, URL)
-                    $("#tableWell-" + i + 1).append('<h2><span class="label label-primary">' + tableNumber + "</span> | " + tableData[i].customerID + "</h2>");
+                    $("#tableWell-" + i + 1).append('<h2><span class="label label-primary">' + tableNumber + "</span> | " + tableData[i].name + "</h2>");
                 }
             });
     };
