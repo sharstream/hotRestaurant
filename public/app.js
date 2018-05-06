@@ -134,7 +134,4 @@ $(document).ready(function(){
     runTableQuery();
     runWaitListQuery();
     //send message
-
-    //
-
 });
