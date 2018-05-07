@@ -61,15 +61,15 @@ let reservations = [
 //GET METHOD
 //go to your home page
 app.get("/", (req, res) => {
-    res.sendFile(path.join(__dirname, "/home.html"));
+    res.sendFile(path.join(__dirname, "/app/www/home.html"));
 });
 //make a new reservation
 app.get("/reserve", (req, res) => {
-    res.sendFile(path.join(__dirname, "/reserve.html"));
+    res.sendFile(path.join(__dirname, "/app/www/reserve.html"));
 });
 //display all the resevations
 app.get("/table", (req, res) => {
-    res.sendFile(path.join(__dirname, "/table.html"));
+    res.sendFile(path.join(__dirname, "/app/www/table.html"));
 });
 //resturn all the reservation data
 app.get("/api/table", (req, res) => {
