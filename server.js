@@ -25,10 +25,10 @@ var options = {
     }
 }
 
-app.use(express.static('public', options));
-app.use("/public/app.js", express.static(__dirname + '/public/js/app.js'));
-app.use("/public/app.js", express.static(__dirname + '/public/js/twilioOAuth.js'));
-app.use("/public/app.js", express.static(__dirname + '/public/js/maingunOAuth.js'));
+app.use(express.static('app', options));
+app.use("/public/app.js", express.static(__dirname + '/app/js/app.js'));
+app.use("/public/app.js", express.static(__dirname + '/app/js/twilioOAuth.js'));
+app.use("/public/app.js", express.static(__dirname + '/app/js/maingunOAuth.js'));
 //count every time somebody makes a reservation
 let count = 0;
 let waitlist = [];//array of string
