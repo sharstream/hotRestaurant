@@ -11,6 +11,11 @@ let PORT = process.env.PORT || 3000;
 
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
+app.use(bodyParser.text());
+app.use(bodyParser.json({
+    type: 'application/vnd.api+json'
+}));
+
 //middleware function with an elaborate options object
 var options = {
     dotfiles: 'ignore',
@@ -24,100 +29,16 @@ var options = {
         res.set('x-timestamp', Date.now())
     }
 }
+app.use(express.static('app/www/'))
+app.use(express.static('app/js/', options));
+app.use("/app/www/style.css", express.static(__dirname + '/app/www/style.css'));
+app.use("/app/js/app.js", express.static(__dirname + '/app/js/app.js'));
+app.use("/app/js/twilioOAuth.js", express.static(__dirname + '/app/js/twilioOAuth.js'));
+app.use("/app/js/maingunOAuth.js", express.static(__dirname + '/app/js/maingunOAuth.js'));
 
-app.use(express.static('app', options));
-app.use("/public/app.js", express.static(__dirname + '/app/js/app.js'));
-app.use("/public/app.js", express.static(__dirname + '/app/js/twilioOAuth.js'));
-app.use("/public/app.js", express.static(__dirname + '/app/js/maingunOAuth.js'));
-//count every time somebody makes a reservation
-let count = 0;
-let waitlist = [];//array of string
-let reservations = [
-    {
-        name: "firstReservation",
-        phoneNumber: "8139526965",
-        email: "daverioverde@gmail.com",
-        UniqueID: 1
-    },
-    {
-        name: "secondReservation",
-        phoneNumber: "6781239856",
-        email: "localhost@google.com",
-        UniqueID: 2
-    },
-    {
-        name: "thirdReservation",
-        phoneNumber: "4042341000",
-        email: "localhost@facebook.com",
-        UniqueID: 3
-    }
-];
+require('./app/routing/api_routes.js')(app);
+require('./app/routing/html_routes.js')(app);
 
-//identify routes for each request
-// Routes
-// =============================================================
-
-// Basic route that sends the user first to the AJAX Page
-//GET METHOD
-//go to your home page
-app.get("/", (req, res) => {
-    res.sendFile(path.join(__dirname, "/app/www/home.html"));
-});
-//make a new reservation
-app.get("/reserve", (req, res) => {
-    res.sendFile(path.join(__dirname, "/app/www/reserve.html"));
-});
-//display all the resevations
-app.get("/table", (req, res) => {
-    res.sendFile(path.join(__dirname, "/app/www/table.html"));
-});
-//resturn all the reservation data
-app.get("/api/table", (req, res) => {
-    // res.json(reservations.slice(0, 4));
-    return res.json(reservations);
-});
-//display waiting list
-app.get("/api/waitlist", (req, res) => {
-    // res.json(reservations.slice(5));
-    if (waitlist.length>0) {
-        return res.json(waitlist);
-    }
-    console.log('waitlist empty!!!');
-});
-
-//POST METHOD
-//create a reservation data
-app.post("/api/reserve", (req, res) => {
-    // req.body hosts is equal to the JSON post sent from the user
-    // This works because of our body-parser middleware
-    let newreservation = req.body;
-    // Using a RegEx Pattern to remove spaces from newCharacter
-    // You can read more about RegEx Patterns later https://www.regexbuddy.com/regex.html
-    newreservation.name = newreservation.name.replace(/\s+/g, "").toLowerCase();
-    console.log(newreservation);
-
-    if(reservations.length <= 5){
-        reservations.push(newreservation);
-        res.json(newreservation);
-        console.log('reservation: ' + reservations);
-    }
-    else {
-        waitlist.push(newreservation);
-        res.json(newreservation);
-        console.log('waitlist: ' + waitlist)
-    }
-});
-//reset application
-app.post("/api/clear", (req, res) => {
-    reservations = [];
-    waitlist = [];
-    console.log(reservations);
-});
-app.delete('/api/tables', (req, res) => {
-    console.log('table deleted!!!');
-    reservations.splice(0, 5);
-    res.json(reservations);
-});
 //listening port in the server.
 app.listen(PORT, () => {
     console.log(`Server started on port `+ PORT);
