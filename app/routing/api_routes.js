@@ -1,5 +1,13 @@
 //count every time somebody makes a reservation
-
+require("dot-env").config;
+let keys = require('../js/keys.js');
+var twilio = require('twilio');
+var client = new twilio('AC091aa895564901fb38c68840734ce1f7', 'da2e79f5f5bcf273adf4e7313a6a02de');
+let parseNumber = require("libphonenumber-js");
+var mailgun = require('mailgun-js')({
+    apiKey: 'pubkey-fba3365b4756d6cad14715ce4f68a425',
+    domain: 'gmail.com'
+});
 let count = 0;
 let waitlist = []; //array of string
 let reservations = require("../data/reservations.js")
@@ -44,6 +52,24 @@ module.exports = (app) => {
             res.json(newreservation);
             console.log('waitlist: ' + waitlist)
         }
+
+        client.messages.create({
+                body: 'Hello Aaron from Hot Restaurant',
+                to: '+18139526965', // Text this number
+                from: '+181 39526965 - (813) 737-0574' // From a valid Twilio number
+            })
+            .then((message) => console.log(message.sid));
+
+        var data = {
+            from: 'Excited User <daverioverde@gmail.com>',
+            to: 'aaronchapman95@mail.com',
+            subject: 'Hello',
+            text: 'Testing some Mailgun awesomeness!'
+        };
+
+        mailgun.messages().send(data, function (error, body) {
+            console.log(body);
+        });
     });
     //reset application
     app.post("/api/clear", (req, res) => {

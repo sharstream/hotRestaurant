@@ -12,9 +12,13 @@
   "license": "MIT",
   "dependencies": {
     "body-parser": "^1.18.2",
+    "dot-env": "0.0.1",
     "express": "^4.16.3",
     "jquery": "^3.3.1",
     "libphonenumber-js": "^1.1.11",
-    "nodemon": "^1.17.3"
+    "mailgun-js": "^0.18.0",
+    "nodemon": "^1.17.3",
+    "npm": "^6.0.0",
+    "twilio": "^3.16.0"
   }
 }

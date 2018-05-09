@@ -4,8 +4,6 @@
 let express = require("express");
 let bodyParser = require("body-parser");
 let path = require("path");
-let parseNumber = require("libphonenumber-js");
-
 let app = express();
 let PORT = process.env.PORT || 3000;
 
@@ -30,7 +28,7 @@ var options = {
     }
 }
 app.use(express.static('app/www/'))
-app.use(express.static('app/js/', options));
+app.use(express.static('app', options));
 app.use("/app/www/style.css", express.static(__dirname + '/app/www/style.css'));
 app.use("/app/js/app.js", express.static(__dirname + '/app/js/app.js'));
 app.use("/app/js/twilioOAuth.js", express.static(__dirname + '/app/js/twilioOAuth.js'));
